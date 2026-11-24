@@ -43,11 +43,26 @@ const submitForm = () => {
     }
 };
 
+// Fetch books from the Express GET endpoint and render them
+const getBooks = () => {
+    fetch('/api/books')
+        .then(response => response.json())
+        .then(result => {
+            if (result.statusCode === 200) {
+                result.data.forEach(book => addCard(book));
+            }
+        })
+        .catch(error => console.error('Error fetching books:', error));
+};
+
 // 3. Initialize Modals, Character Counter, and Click Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Initialise modals
     const modals = document.querySelectorAll('.modal');
     M.Modal.init(modals);
+
+    // Load books from server
+    getBooks();
 
     // Initialise char counter on description textarea
     const textareas = document.querySelectorAll('textarea#description');
